@@ -7,11 +7,23 @@
 }
 
 body {
-  color: #e8e0d0;
-  background: #12120e;
+  color: #e2e8f0;
+  background: #0b1120;
   font-family: system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle wheat pattern background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 200' fill='none'%3E%3Cpath d='M40 195 L40 40' stroke='%23c4a040' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M40 40 C40 40 28 30 26 18 C24 6 34 2 40 10 C46 2 56 6 54 18 C52 30 40 40 40 40Z' fill='%23c4a040'/%3E%3Cpath d='M40 65 C40 65 28 55 26 43 C24 31 34 27 40 35 C46 27 56 31 54 43 C52 55 40 65 40 65Z' fill='%23c4a040'/%3E%3Cpath d='M40 90 C40 90 28 80 26 68 C24 56 34 52 40 60 C46 52 56 56 54 68 C52 80 40 90 40 90Z' fill='%23c4a040'/%3E%3Cpath d='M40 115 C40 115 30 108 28 98 C26 88 35 85 40 91 C45 85 54 88 52 98 C50 108 40 115 40 115Z' fill='%23c4a040'/%3E%3Cpath d='M40 140 C40 140 32 134 30 126 C28 118 36 115 40 120 C44 115 52 118 50 126 C48 134 40 140 40 140Z' fill='%23c4a040'/%3E%3C/svg%3E");
+  background-size: 60px 150px;
 }
 
 /* Scrollbar sutil */
@@ -22,7 +34,7 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3a2820;
+  background: #1e293b;
   border-radius: 2px;
 }
 
@@ -30,9 +42,9 @@ body {
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #1e1a14 inset;
-  -webkit-text-fill-color: #e8e0d0;
-  caret-color: #e8e0d0;
+  -webkit-box-shadow: 0 0 0px 1000px #0f172a inset;
+  -webkit-text-fill-color: #e2e8f0;
+  caret-color: #e2e8f0;
 }
 
 /* Modal slide up animation */

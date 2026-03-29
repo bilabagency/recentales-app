@@ -183,7 +183,7 @@ export default function EventoPage() {
   if (loading || checkingAttendance) {
     return (
       <div className="py-8 flex justify-center">
-        <div className="w-8 h-8 border-2 border-campo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -221,19 +221,19 @@ export default function EventoPage() {
     return (
       <div className="py-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-campo-600/20 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-campo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-600/20 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-tierra-100 mb-2">Sin evento activo</h2>
-          <p className="text-tierra-400 text-sm max-w-xs mx-auto">
+          <h2 className="text-xl font-bold text-slate-100 mb-2">Sin evento activo</h2>
+          <p className="text-slate-400 text-sm max-w-xs mx-auto">
             Creá un nuevo evento para empezar a organizar la juntada.
           </p>
         </div>
         <button
           onClick={() => setCreating(true)}
-          className="w-full py-3.5 bg-campo-600 hover:bg-campo-500 active:bg-campo-700 text-white font-semibold rounded-xl transition-colors text-base"
+          className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-semibold rounded-xl transition-colors text-base"
         >
           Crear evento
         </button>
@@ -245,27 +245,27 @@ export default function EventoPage() {
   if (creating || editing) {
     return (
       <div className="py-6">
-        <h2 className="text-xl font-bold text-tierra-100 mb-6">
+        <h2 className="text-xl font-bold text-slate-100 mb-6">
           {editing ? "Editar evento" : "Nuevo evento"}
         </h2>
         <form onSubmit={editing ? handleEdit : handleCreate} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-tierra-300 mb-2">Nombre del evento</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ej: Pascuas 2026" required className="w-full px-4 py-3.5 bg-tierra-900 border border-tierra-700 rounded-xl text-tierra-100 placeholder-tierra-500 focus:outline-none focus:ring-2 focus:ring-campo-500 focus:border-transparent text-base" />
+            <label className="block text-sm font-medium text-slate-300 mb-2">Nombre del evento</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ej: Pascuas 2026" required className="w-full px-4 py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-base" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-tierra-300 mb-2">Llegada</label>
-              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required className="w-full px-3 py-3.5 bg-tierra-900 border border-tierra-700 rounded-xl text-tierra-100 focus:outline-none focus:ring-2 focus:ring-campo-500 focus:border-transparent text-base [color-scheme:dark]" />
+              <label className="block text-sm font-medium text-slate-300 mb-2">Llegada</label>
+              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required className="w-full px-3 py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-base [color-scheme:dark]" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-tierra-300 mb-2">Partida</label>
-              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required className="w-full px-3 py-3.5 bg-tierra-900 border border-tierra-700 rounded-xl text-tierra-100 focus:outline-none focus:ring-2 focus:ring-campo-500 focus:border-transparent text-base [color-scheme:dark]" />
+              <label className="block text-sm font-medium text-slate-300 mb-2">Partida</label>
+              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required className="w-full px-3 py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-base [color-scheme:dark]" />
             </div>
           </div>
           <div className="flex gap-3 pt-2">
-            <button type="button" onClick={() => { setCreating(false); setEditing(false); }} className="flex-1 py-3.5 bg-tierra-800 hover:bg-tierra-700 text-tierra-300 font-medium rounded-xl transition-colors">Cancelar</button>
-            <button type="submit" disabled={saving} className="flex-1 py-3.5 bg-campo-600 hover:bg-campo-500 disabled:opacity-50 text-white font-semibold rounded-xl transition-colors">{saving ? "Guardando..." : "Guardar"}</button>
+            <button type="button" onClick={() => { setCreating(false); setEditing(false); }} className="flex-1 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl transition-colors">Cancelar</button>
+            <button type="submit" disabled={saving} className="flex-1 py-3.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-semibold rounded-xl transition-colors">{saving ? "Guardando..." : "Guardar"}</button>
           </div>
         </form>
       </div>
@@ -296,16 +296,16 @@ export default function EventoPage() {
       />
 
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-tierra-100">{event!.name}</h2>
-        <button onClick={startEditing} className="text-sm text-campo-500 hover:text-campo-400 font-medium transition-colors">Editar</button>
+        <h2 className="text-xl font-bold text-slate-100">{event!.name}</h2>
+        <button onClick={startEditing} className="text-sm text-emerald-500 hover:text-emerald-400 font-medium transition-colors">Editar</button>
       </div>
 
       {/* My status */}
-      <div className="bg-campo-600/10 border border-campo-600/20 rounded-xl p-4">
+      <div className="bg-emerald-600/10 border border-emerald-600/20 rounded-xl p-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-campo-400 font-medium text-sm">Tu asistencia</p>
-            <p className="text-tierra-100 text-sm mt-0.5">
+            <p className="text-emerald-400 font-medium text-sm">Tu asistencia</p>
+            <p className="text-slate-100 text-sm mt-0.5">
               {myConfirmedDays > 0
                 ? `${myConfirmedDays} ${myConfirmedDays === 1 ? "día confirmado" : "días confirmados"}`
                 : "Sin confirmar"}
@@ -313,7 +313,7 @@ export default function EventoPage() {
           </div>
           <button
             onClick={() => setShowPopup(true)}
-            className="px-3.5 py-2 bg-campo-600 hover:bg-campo-500 text-white text-sm font-medium rounded-xl transition-colors"
+            className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-xl transition-colors"
           >
             {myConfirmedDays > 0 ? "Modificar" : "Confirmar"}
           </button>
@@ -321,16 +321,16 @@ export default function EventoPage() {
       </div>
 
       {/* Event info */}
-      <div className="bg-tierra-900 border border-tierra-800 rounded-xl p-4 space-y-3">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-campo-600/20 flex items-center justify-center shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-campo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="w-10 h-10 rounded-lg bg-emerald-600/20 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
           <div>
-            <p className="text-sm text-tierra-400">Fechas</p>
-            <p className="text-tierra-100 font-medium">{formatDate(event!.start_date)} — {formatDate(event!.end_date)}</p>
+            <p className="text-sm text-slate-400">Fechas</p>
+            <p className="text-slate-100 font-medium">{formatDate(event!.start_date)} — {formatDate(event!.end_date)}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -340,21 +340,21 @@ export default function EventoPage() {
             </svg>
           </div>
           <div>
-            <p className="text-sm text-tierra-400">Confirmados</p>
-            <p className="text-tierra-100 font-medium">{confirmedCount} {confirmedCount === 1 ? "persona" : "personas"}</p>
+            <p className="text-sm text-slate-400">Confirmados</p>
+            <p className="text-slate-100 font-medium">{confirmedCount} {confirmedCount === 1 ? "persona" : "personas"}</p>
           </div>
         </div>
       </div>
 
       {/* People per day */}
       {allDays.length > 0 && (
-        <div className="bg-tierra-900 border border-tierra-800 rounded-xl p-4">
-          <p className="text-sm text-tierra-400 mb-3">Personas por día</p>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p className="text-sm text-slate-400 mb-3">Personas por día</p>
           <div className="flex gap-2 overflow-x-auto pb-1">
             {days.map((day) => (
-              <div key={day} className="flex flex-col items-center min-w-[3.5rem] px-2 py-2 bg-tierra-800 rounded-lg">
-                <span className="text-xs text-tierra-400">{formatDate(day).split(" ")[0]}</span>
-                <span className="text-lg font-bold text-tierra-100">{peoplePerDay(day)}</span>
+              <div key={day} className="flex flex-col items-center min-w-[3.5rem] px-2 py-2 bg-slate-800 rounded-lg">
+                <span className="text-xs text-slate-400">{formatDate(day).split(" ")[0]}</span>
+                <span className="text-lg font-bold text-slate-100">{peoplePerDay(day)}</span>
               </div>
             ))}
           </div>
@@ -363,20 +363,20 @@ export default function EventoPage() {
 
       {/* Who's coming */}
       {allAttendees.length > 0 && (
-        <div className="bg-tierra-900 border border-tierra-800 rounded-xl p-4">
-          <p className="text-sm text-tierra-400 mb-3">¿Quiénes vienen?</p>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p className="text-sm text-slate-400 mb-3">¿Quiénes vienen?</p>
           <div className="flex flex-wrap gap-2">
             {allAttendees.map((att) => (
               <div
                 key={att.id}
-                className="flex items-center gap-2 px-3 py-2 bg-tierra-800 rounded-lg"
+                className="flex items-center gap-2 px-3 py-2 bg-slate-800 rounded-lg"
               >
-                <div className="w-6 h-6 rounded-full bg-tierra-700 flex items-center justify-center text-tierra-300 font-bold text-[10px] uppercase">
+                <div className="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 font-bold text-[10px] uppercase">
                   {att.name.slice(0, 2)}
                 </div>
-                <span className="text-tierra-300 text-sm">{att.name}</span>
+                <span className="text-slate-300 text-sm">{att.name}</span>
                 {att.is_vegetarian && (
-                  <span className="text-campo-400 text-xs">V</span>
+                  <span className="text-emerald-400 text-xs">V</span>
                 )}
               </div>
             ))}

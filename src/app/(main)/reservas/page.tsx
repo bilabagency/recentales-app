@@ -147,7 +147,7 @@ export default function ReservasPage() {
   const todayStr = dateStr(now.getFullYear(), now.getMonth(), now.getDate());
 
   // Assign colors to reservations for the calendar
-  const resColors = ["bg-campo-600/30 text-campo-300", "bg-amber-500/30 text-amber-300", "bg-blue-500/30 text-blue-300", "bg-purple-500/30 text-purple-300", "bg-red-500/30 text-red-300", "bg-teal-500/30 text-teal-300"];
+  const resColors = ["bg-emerald-600/30 text-emerald-300", "bg-amber-500/30 text-amber-300", "bg-blue-500/30 text-blue-300", "bg-purple-500/30 text-purple-300", "bg-red-500/30 text-red-300", "bg-teal-500/30 text-teal-300"];
 
   const getResColor = (resId: string): string => {
     const idx = reservations.findIndex((r) => r.id === resId);
@@ -157,7 +157,7 @@ export default function ReservasPage() {
   if (loading) {
     return (
       <div className="py-8 flex justify-center">
-        <div className="w-8 h-8 border-2 border-campo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -169,12 +169,12 @@ export default function ReservasPage() {
     <div className="py-6 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-tierra-100">La Casa</h2>
-          <p className="text-sm text-tierra-400">Reservas para eventos no familiares</p>
+          <h2 className="text-xl font-bold text-slate-100">La Casa</h2>
+          <p className="text-sm text-slate-400">Reservas para eventos no familiares</p>
         </div>
         <button
           onClick={() => { setShowForm(!showForm); setError(""); }}
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-campo-600 hover:bg-campo-500 text-white font-medium rounded-xl transition-colors text-sm"
+          className="flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl transition-colors text-sm"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -185,20 +185,20 @@ export default function ReservasPage() {
 
       {/* Form */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-tierra-900 border border-tierra-800 rounded-xl p-4 space-y-3">
+        <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-tierra-400 mb-1.5">Desde</label>
-              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required className="w-full px-3 py-3 bg-tierra-800 border border-tierra-700 rounded-xl text-tierra-100 focus:outline-none focus:ring-2 focus:ring-campo-500 text-base [color-scheme:dark]" />
+              <label className="block text-xs text-slate-400 mb-1.5">Desde</label>
+              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required className="w-full px-3 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-base [color-scheme:dark]" />
             </div>
             <div>
-              <label className="block text-xs text-tierra-400 mb-1.5">Hasta</label>
-              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required className="w-full px-3 py-3 bg-tierra-800 border border-tierra-700 rounded-xl text-tierra-100 focus:outline-none focus:ring-2 focus:ring-campo-500 text-base [color-scheme:dark]" />
+              <label className="block text-xs text-slate-400 mb-1.5">Hasta</label>
+              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required className="w-full px-3 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-base [color-scheme:dark]" />
             </div>
           </div>
           <div>
-            <label className="block text-xs text-tierra-400 mb-1.5">Motivo (opcional)</label>
-            <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Ej: Cumpleaños, asado con amigos..." className="w-full px-3 py-3 bg-tierra-800 border border-tierra-700 rounded-xl text-tierra-100 placeholder-tierra-600 focus:outline-none focus:ring-2 focus:ring-campo-500 text-base" />
+            <label className="block text-xs text-slate-400 mb-1.5">Motivo (opcional)</label>
+            <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Ej: Cumpleaños, asado con amigos..." className="w-full px-3 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-base" />
           </div>
           {error && (
             <div className="p-2.5 bg-red-500/10 border border-red-500/20 rounded-lg">
@@ -206,20 +206,20 @@ export default function ReservasPage() {
             </div>
           )}
           <div className="flex gap-3">
-            <button type="button" onClick={() => setShowForm(false)} className="flex-1 py-3 bg-tierra-800 hover:bg-tierra-700 text-tierra-400 font-medium rounded-xl text-sm">Cancelar</button>
-            <button type="submit" disabled={saving} className="flex-1 py-3 bg-campo-600 hover:bg-campo-500 disabled:opacity-40 text-white font-semibold rounded-xl text-sm">{saving ? "Guardando..." : "Confirmar"}</button>
+            <button type="button" onClick={() => setShowForm(false)} className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-400 font-medium rounded-xl text-sm">Cancelar</button>
+            <button type="submit" disabled={saving} className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white font-semibold rounded-xl text-sm">{saving ? "Guardando..." : "Confirmar"}</button>
           </div>
         </form>
       )}
 
       {/* Calendar */}
-      <div className="bg-tierra-900 border border-tierra-800 rounded-xl p-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
         <div className="flex items-center justify-between mb-4">
-          <button onClick={prevMonth} className="p-2 text-tierra-400 hover:text-tierra-200 transition-colors">
+          <button onClick={prevMonth} className="p-2 text-slate-400 hover:text-slate-200 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           </button>
-          <h3 className="text-tierra-100 font-semibold text-sm">{MONTH_NAMES[viewMonth]} {viewYear}</h3>
-          <button onClick={nextMonth} className="p-2 text-tierra-400 hover:text-tierra-200 transition-colors">
+          <h3 className="text-slate-100 font-semibold text-sm">{MONTH_NAMES[viewMonth]} {viewYear}</h3>
+          <button onClick={nextMonth} className="p-2 text-slate-400 hover:text-slate-200 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
@@ -227,7 +227,7 @@ export default function ReservasPage() {
         {/* Day headers */}
         <div className="grid grid-cols-7 gap-1 mb-1">
           {DAY_NAMES.map((d) => (
-            <div key={d} className="text-center text-[10px] text-tierra-500 font-medium py-1">{d}</div>
+            <div key={d} className="text-center text-[10px] text-slate-500 font-medium py-1">{d}</div>
           ))}
         </div>
 
@@ -249,8 +249,8 @@ export default function ReservasPage() {
                   reservation
                     ? getResColor(reservation.id)
                     : isToday
-                    ? "bg-tierra-800 text-tierra-100 ring-1 ring-campo-500"
-                    : "text-tierra-400 hover:bg-tierra-800/50"
+                    ? "bg-slate-800 text-slate-100 ring-1 ring-emerald-500"
+                    : "text-slate-400 hover:bg-slate-800/50"
                 }`}
                 title={reservation ? `${reservation.reserved_by_name}${reservation.description ? ` - ${reservation.description}` : ""}` : undefined}
               >
@@ -262,7 +262,7 @@ export default function ReservasPage() {
 
         {/* Legend */}
         {reservations.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-tierra-800">
+          <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-800">
             {upcoming.slice(0, 6).map((r) => (
               <div key={r.id} className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-medium ${getResColor(r.id)}`}>
                 <span>{r.reserved_by_name.split(" ")[0]}</span>
@@ -274,13 +274,13 @@ export default function ReservasPage() {
 
       {/* Upcoming reservations list */}
       <div className="space-y-2">
-        <h3 className="text-sm font-medium text-tierra-300">
+        <h3 className="text-sm font-medium text-slate-300">
           {upcoming.length > 0 ? "Próximas reservas" : ""}
         </h3>
         {upcoming.length === 0 && !showForm && (
           <div className="text-center py-6">
-            <p className="text-tierra-500 text-sm">No hay reservas próximas.</p>
-            <p className="text-tierra-600 text-xs mt-1">Usá el botón Reservar para agendar fechas.</p>
+            <p className="text-slate-500 text-sm">No hay reservas próximas.</p>
+            <p className="text-slate-600 text-xs mt-1">Usá el botón Reservar para agendar fechas.</p>
           </div>
         )}
         {upcoming.map((r) => {
@@ -290,25 +290,25 @@ export default function ReservasPage() {
           const days = Math.round((endD.getTime() - startD.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
           return (
-            <div key={r.id} className="bg-tierra-900 border border-tierra-800 rounded-xl p-4">
+            <div key={r.id} className="bg-slate-900 border border-slate-800 rounded-xl p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold ${getResColor(r.id)}`}>
                       {r.reserved_by_name.slice(0, 2).toUpperCase()}
                     </div>
-                    <p className="text-tierra-100 font-medium text-sm">{r.reserved_by_name}</p>
+                    <p className="text-slate-100 font-medium text-sm">{r.reserved_by_name}</p>
                   </div>
-                  <p className="text-tierra-400 text-xs">
+                  <p className="text-slate-400 text-xs">
                     {startD.toLocaleDateString("es-AR", { day: "numeric", month: "short" })} — {endD.toLocaleDateString("es-AR", { day: "numeric", month: "short", year: "numeric" })}
-                    <span className="text-tierra-500 ml-1">({days} {days === 1 ? "día" : "días"})</span>
+                    <span className="text-slate-500 ml-1">({days} {days === 1 ? "día" : "días"})</span>
                   </p>
                   {r.description && (
-                    <p className="text-tierra-500 text-xs mt-1">{r.description}</p>
+                    <p className="text-slate-500 text-xs mt-1">{r.description}</p>
                   )}
                 </div>
                 {isOwner && (
-                  <button onClick={() => handleDelete(r.id)} className="p-1.5 text-tierra-600 hover:text-red-400 transition-colors shrink-0">
+                  <button onClick={() => handleDelete(r.id)} className="p-1.5 text-slate-600 hover:text-red-400 transition-colors shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                   </button>
                 )}

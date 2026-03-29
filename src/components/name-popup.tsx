@@ -54,7 +54,7 @@ export default function NamePopup({
     >
       <form onSubmit={handleSave} className="space-y-5">
         <div>
-          <p className="text-tierra-400 text-sm mb-4">
+          <p className="text-slate-400 text-sm mb-4">
             {isFirstTime
               ? "¿Cómo te llamás? Así te van a ver los demás."
               : "Modificá tu nombre. Se actualiza en todo el evento."}
@@ -66,14 +66,14 @@ export default function NamePopup({
             placeholder="Tu nombre"
             required
             autoFocus
-            className="w-full px-4 py-3.5 bg-tierra-800 border border-tierra-700 rounded-xl text-tierra-50 placeholder-tierra-500 focus:outline-none focus:ring-2 focus:ring-campo-500 focus:border-transparent text-lg text-center"
+            className="w-full px-4 py-3.5 bg-slate-800 border border-slate-700 rounded-xl text-slate-50 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-lg text-center"
           />
         </div>
 
         <button
           type="submit"
           disabled={saving || !name.trim()}
-          className="w-full py-3.5 bg-campo-600 hover:bg-campo-500 active:bg-campo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors text-base"
+          className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors text-base"
         >
           {saving ? "Guardando..." : "Guardar"}
         </button>
@@ -82,7 +82,7 @@ export default function NamePopup({
           <button
             type="button"
             onClick={() => onClose()}
-            className="w-full py-3 text-tierra-500 hover:text-tierra-300 font-medium transition-colors text-sm"
+            className="w-full py-3 text-slate-500 hover:text-slate-300 font-medium transition-colors text-sm"
           >
             Cancelar
           </button>
