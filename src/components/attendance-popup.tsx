@@ -42,19 +42,19 @@ function Toggle({
   size?: "normal" | "large";
 }) {
   const w = size === "large" ? "w-14 h-8" : "w-12 h-7";
-  const dot =
-    size === "large"
-      ? "w-6 h-6 top-1"
-      : "w-5 h-5 top-1";
-  const translate = size === "large" ? "translate-x-[26px]" : "translate-x-[22px]";
+  const dot = size === "large" ? "w-6 h-6 top-1" : "w-5 h-5 top-1";
+  const translate =
+    size === "large" ? "translate-x-[26px]" : "translate-x-[22px]";
 
   return (
-    <button
-      type="button"
+    <div
       role="switch"
       aria-checked={checked}
-      onClick={onChange}
-      className={`${w} rounded-full transition-colors relative shrink-0 ${
+      onClick={(e) => {
+        e.stopPropagation();
+        onChange();
+      }}
+      className={`${w} rounded-full transition-colors relative shrink-0 cursor-pointer ${
         checked ? "bg-emerald-500" : "bg-slate-600"
       }`}
     >
@@ -63,7 +63,45 @@ function Toggle({
           checked ? translate : "translate-x-1"
         }`}
       />
-    </button>
+    </div>
+  );
+}
+
+function PartPicker({
+  value,
+  onChange,
+}: {
+  value: DayPart;
+  onChange: (part: DayPart) => void;
+}) {
+  const options: { key: DayPart; label: string }[] = [
+    { key: "full", label: "Todo el día" },
+    { key: "morning", label: "Solo mañana" },
+    { key: "afternoon", label: "Solo tarde" },
+  ];
+
+  return (
+    <div
+      className="flex gap-1.5 mt-2"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {options.map((opt) => (
+        <button
+          key={opt.key}
+          type="button"
+          onClick={() => onChange(opt.key)}
+          className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-medium transition-colors ${
+            value === opt.key
+              ? opt.key === "full"
+                ? "bg-emerald-500/25 text-emerald-300 border border-emerald-500/40"
+                : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+              : "bg-slate-700/50 text-slate-500 border border-transparent hover:text-slate-400"
+          }`}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
   );
 }
 
@@ -77,23 +115,27 @@ export default function AttendancePopup({
   initialVegetarian,
   onConfirm,
 }: AttendancePopupProps) {
-  // Selected dates as a Set for quick lookup
-  const [selectedDays, setSelectedDays] = useState<Set<string>>(() => {
+  const [myDays, setMyDays] = useState<Map<string, DayPart>>(() => {
+    const map = new Map<string, DayPart>();
     if (initialDays && initialDays.length > 0) {
-      return new Set(initialDays.map((d) => d.date));
+      initialDays.forEach((d) => map.set(d.date, d.part));
+    } else {
+      days.forEach((d) => map.set(d, "full"));
     }
-    return new Set(days);
+    return map;
   });
   const [isVegetarian, setIsVegetarian] = useState(initialVegetarian || false);
 
   // Sync when popup opens with new initial data
   const [lastOpen, setLastOpen] = useState(false);
   if (open && !lastOpen) {
+    const map = new Map<string, DayPart>();
     if (initialDays && initialDays.length > 0) {
-      setSelectedDays(new Set(initialDays.map((d) => d.date)));
+      initialDays.forEach((d) => map.set(d.date, d.part));
     } else {
-      setSelectedDays(new Set(days));
+      days.forEach((d) => map.set(d, "full"));
     }
+    setMyDays(map);
     if (initialVegetarian !== undefined) setIsVegetarian(initialVegetarian);
   }
   if (open !== lastOpen) setLastOpen(open);
@@ -103,28 +145,33 @@ export default function AttendancePopup({
   const [guestName, setGuestName] = useState("");
   const [guestVeg, setGuestVeg] = useState(false);
   const [saving, setSaving] = useState(false);
-
-  // Expanding guest index for editing days
   const [expandedGuest, setExpandedGuest] = useState<number | null>(null);
 
   const toggleDay = (date: string) => {
-    setSelectedDays((prev) => {
-      const next = new Set(prev);
+    setMyDays((prev) => {
+      const next = new Map(prev);
       if (next.has(date)) {
         next.delete(date);
       } else {
-        next.add(date);
+        next.set(date, "full");
       }
+      return next;
+    });
+  };
+
+  const setDayPart = (date: string, part: DayPart) => {
+    setMyDays((prev) => {
+      const next = new Map(prev);
+      next.set(date, part);
       return next;
     });
   };
 
   const addGuest = () => {
     if (!guestName.trim()) return;
-    const guestDays: DaySelection[] = Array.from(selectedDays).map((d) => ({
-      date: d,
-      part: "full" as DayPart,
-    }));
+    const guestDays: DaySelection[] = Array.from(myDays.entries()).map(
+      ([date, part]) => ({ date, part })
+    );
     setGuests((prev) => [
       ...prev,
       { name: guestName.trim(), isVegetarian: guestVeg, days: guestDays },
@@ -151,8 +198,27 @@ export default function AttendancePopup({
         if (has) {
           return { ...g, days: g.days.filter((d) => d.date !== date) };
         } else {
-          return { ...g, days: [...g.days, { date, part: "full" as DayPart }] };
+          return {
+            ...g,
+            days: [...g.days, { date, part: "full" as DayPart }],
+          };
         }
+      })
+    );
+  };
+
+  const setGuestDayPart = (
+    guestIndex: number,
+    date: string,
+    part: DayPart
+  ) => {
+    setGuests((prev) =>
+      prev.map((g, i) => {
+        if (i !== guestIndex) return g;
+        return {
+          ...g,
+          days: g.days.map((d) => (d.date === date ? { ...d, part } : d)),
+        };
       })
     );
   };
@@ -167,22 +233,21 @@ export default function AttendancePopup({
 
   const handleConfirm = async () => {
     setSaving(true);
-    const myDays: DaySelection[] = Array.from(selectedDays).map((d) => ({
-      date: d,
-      part: "full" as DayPart,
-    }));
-    await onConfirm({ myDays, isVegetarian, guests });
+    const myDaysList: DaySelection[] = Array.from(myDays.entries()).map(
+      ([date, part]) => ({ date, part })
+    );
+    await onConfirm({ myDays: myDaysList, isVegetarian, guests });
     setSaving(false);
   };
 
-  const myDayCount = selectedDays.size;
+  const myDayCount = myDays.size;
   const guestCount = guests.length;
 
   return (
     <Modal open={open} onClose={onClose} title={eventName}>
       <div className="space-y-6">
-        {/* Summary badge */}
-        <div className="flex items-center gap-3">
+        {/* Summary badges */}
+        <div className="flex items-center gap-3 flex-wrap">
           <div className="flex items-center gap-2 px-3.5 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -238,38 +303,50 @@ export default function AttendancePopup({
           </p>
           <div className="space-y-2">
             {days.map((day) => {
-              const isOn = selectedDays.has(day);
+              const isOn = myDays.has(day);
+              const part = myDays.get(day) || "full";
               return (
-                <button
-                  key={day}
-                  type="button"
-                  onClick={() => toggleDay(day)}
-                  className={`w-full flex items-center justify-between px-4 py-4 rounded-xl transition-colors ${
-                    isOn
-                      ? "bg-emerald-500/10 border border-emerald-500/25"
-                      : "bg-slate-800/60 border border-slate-700/50"
-                  }`}
-                >
-                  <span
-                    className={`text-base font-medium ${
-                      isOn ? "text-slate-100" : "text-slate-500"
+                <div key={day}>
+                  <div
+                    onClick={() => toggleDay(day)}
+                    className={`w-full flex items-center justify-between px-4 py-4 rounded-xl transition-colors cursor-pointer ${
+                      isOn
+                        ? "bg-emerald-500/10 border border-emerald-500/25"
+                        : "bg-slate-800/60 border border-slate-700/50"
                     }`}
                   >
-                    {formatDateLong(day)}
-                  </span>
-                  <Toggle
-                    checked={isOn}
-                    onChange={() => toggleDay(day)}
-                    size="large"
-                  />
-                </button>
+                    <span
+                      className={`text-base font-medium ${
+                        isOn ? "text-slate-100" : "text-slate-500"
+                      }`}
+                    >
+                      {formatDateLong(day)}
+                    </span>
+                    <Toggle
+                      checked={isOn}
+                      onChange={() => toggleDay(day)}
+                      size="large"
+                    />
+                  </div>
+                  {isOn && (
+                    <div className="px-2 mt-1">
+                      <PartPicker
+                        value={part}
+                        onChange={(p) => setDayPart(day, p)}
+                      />
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
         </div>
 
         {/* Vegetarian toggle */}
-        <div className="flex items-center justify-between px-4 py-3.5 bg-slate-800/60 border border-slate-700/50 rounded-xl">
+        <div
+          onClick={() => setIsVegetarian(!isVegetarian)}
+          className="flex items-center justify-between px-4 py-3.5 bg-slate-800/60 border border-slate-700/50 rounded-xl cursor-pointer"
+        >
           <span className="text-slate-300 text-base">Soy vegetariano/a</span>
           <Toggle
             checked={isVegetarian}
@@ -369,7 +446,10 @@ export default function AttendancePopup({
                   {expandedGuest === index && (
                     <div className="px-4 pb-4 space-y-2 border-t border-slate-700/50 pt-3">
                       {/* Guest vegetarian toggle */}
-                      <div className="flex items-center justify-between py-2 px-1">
+                      <div
+                        onClick={() => toggleGuestVegetarian(index)}
+                        className="flex items-center justify-between py-2 px-1 cursor-pointer"
+                      >
                         <span className="text-slate-400 text-sm">
                           Vegetariano/a
                         </span>
@@ -380,30 +460,43 @@ export default function AttendancePopup({
                       </div>
                       {/* Guest days */}
                       {days.map((day) => {
-                        const isOn = guest.days.some((d) => d.date === day);
+                        const guestDay = guest.days.find(
+                          (d) => d.date === day
+                        );
+                        const isOn = !!guestDay;
                         return (
-                          <button
-                            key={day}
-                            type="button"
-                            onClick={() => toggleGuestDay(index, day)}
-                            className={`w-full flex items-center justify-between px-3 py-3 rounded-lg transition-colors ${
-                              isOn
-                                ? "bg-emerald-500/10 border border-emerald-500/20"
-                                : "bg-slate-700/40 border border-slate-600/30"
-                            }`}
-                          >
-                            <span
-                              className={`text-sm font-medium ${
-                                isOn ? "text-slate-200" : "text-slate-500"
+                          <div key={day}>
+                            <div
+                              onClick={() => toggleGuestDay(index, day)}
+                              className={`w-full flex items-center justify-between px-3 py-3 rounded-lg transition-colors cursor-pointer ${
+                                isOn
+                                  ? "bg-emerald-500/10 border border-emerald-500/20"
+                                  : "bg-slate-700/40 border border-slate-600/30"
                               }`}
                             >
-                              {formatDateLong(day)}
-                            </span>
-                            <Toggle
-                              checked={isOn}
-                              onChange={() => toggleGuestDay(index, day)}
-                            />
-                          </button>
+                              <span
+                                className={`text-sm font-medium ${
+                                  isOn ? "text-slate-200" : "text-slate-500"
+                                }`}
+                              >
+                                {formatDateLong(day)}
+                              </span>
+                              <Toggle
+                                checked={isOn}
+                                onChange={() => toggleGuestDay(index, day)}
+                              />
+                            </div>
+                            {isOn && (
+                              <div className="px-1 mt-1">
+                                <PartPicker
+                                  value={guestDay?.part || "full"}
+                                  onChange={(p) =>
+                                    setGuestDayPart(index, day, p)
+                                  }
+                                />
+                              </div>
+                            )}
+                          </div>
                         );
                       })}
                     </div>
@@ -424,7 +517,10 @@ export default function AttendancePopup({
                 autoFocus
                 className="w-full px-4 py-3.5 bg-slate-800 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-base"
               />
-              <div className="flex items-center justify-between px-1">
+              <div
+                onClick={() => setGuestVeg(!guestVeg)}
+                className="flex items-center justify-between px-1 cursor-pointer"
+              >
                 <span className="text-slate-400 text-sm">Vegetariano/a</span>
                 <Toggle
                   checked={guestVeg}
@@ -482,7 +578,7 @@ export default function AttendancePopup({
         <button
           type="button"
           onClick={handleConfirm}
-          disabled={saving || selectedDays.size === 0}
+          disabled={saving || myDays.size === 0}
           className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 disabled:opacity-40 text-white font-bold rounded-xl text-lg transition-colors shadow-lg shadow-emerald-600/20"
         >
           {saving ? "Guardando..." : "Confirmar asistencia"}
